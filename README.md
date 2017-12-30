@@ -4,7 +4,8 @@
 Emulates a Bluetooth HID keyboard by mirroring / sharing keystrokes from an attached (or internal) keyboard on a Ubuntu device or sending (multiple) virtual key events
 via a python script
 
-###requirements:
+### requirements:
+
 - Ubuntu (16.04) device with working Bluetooth BlueZ stack
 - python 2.7 with Pybluez, evdev module
 
@@ -35,5 +36,5 @@ Sony D5803 Android 6 smartphone (bluetooth HID v1.1 host role)
   go to the "command center" window and push` CTRL-b` followed by `&` and `y`
   (simply closing the console won't terminate the tool!)
 
-#Disclaimer:
+# Disclaimer:
 This tool is a slightly modified version of https://github.com/quangthanh010290/BL_keyboard_RPI in order to work for ubuntu. See this tutorial http://www.mlabviet.com/2017/09/make-raspberry-pi3-as-emulator.html as well as this [video demo](https://www.youtube.com/watch?v=fFpIvjS4AXs) for a step by step installation guide.
