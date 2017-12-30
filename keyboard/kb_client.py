@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #
 # YAPTB Bluetooth keyboard emulation service
-# keyboard copy client. 
+# keyboard copy client.
 # Reads local key events and forwards them to the btk_server DBUS service
 #
 # Adapted from www.linuxuser.co.uk/tutorials/emulate-a-bluetooth-keyboard-with-the-raspberry-pi
@@ -46,42 +46,41 @@ class Keyboard():
 			0x00,
 			0x00]
 
-		print "setting up DBus Client"	
+		print "setting up DBus Client"
 
 		self.bus = dbus.SystemBus()
 		self.btkservice = self.bus.get_object('org.yaptb.btkbservice','/org/yaptb/btkbservice')
-		self.iface = dbus.Interface(self.btkservice,'org.yaptb.btkbservice')	
+		self.iface = dbus.Interface(self.btkservice,'org.yaptb.btkbservice')
 
 
 		print "waiting for keyboard"
 
-		#keep trying to key a keyboard
+		#keep trying to find a keyboard at given input file 
 		have_dev=False
 		while have_dev==False:
 			try:
-				#try and get a keyboard - should always be event0 as
-				#we're only plugging one thing in
-				self.dev = InputDevice("/dev/input/event0")
+				#try and get a keyboard - Enter the path to the keyboard u want to use HERE
+				self.dev = InputDevice("/dev/input/event4")
 				have_dev=True
 			except OSError:
 				print "Keyboard not found, waiting 3 seconds and retrying"
 				time.sleep(3)
 			print "found a keyboard"
-		
+
 
 
 	def change_state(self,event):
 		evdev_code=ecodes.KEY[event.code]
 		modkey_element = keymap.modkey(evdev_code)
-		
+
 		if modkey_element > 0:
 			if self.state[2][modkey_element] ==0:
 				self.state[2][modkey_element]=1
 			else:
 				self.state[2][modkey_element]=0
-		
+
 		else:
-	
+
 			#Get the keycode of the key
 			hex_key = keymap.convert(ecodes.KEY[event.code])
 			#Loop through elements 4 to 9 of the inport report structure
@@ -93,7 +92,7 @@ class Keyboard():
 					#if the current space if empty and the key is being pressed
 					self.state[i]=hex_key
 					break;
-					
+
 
 	#poll for keyboard events
 	def event_loop(self):
@@ -112,7 +111,7 @@ class Keyboard():
 		for bit in element:
 			bin_str += str(bit)
 
-	
+
 
 		self.iface.send_keys(int(bin_str,2),self.state[4:10]  )
 
@@ -126,4 +125,3 @@ if __name__ == "__main__":
 
 	print "starting event loop"
 	kb.event_loop()
-

@@ -4,7 +4,7 @@ import sys # used to exit the script
 import dbus
 import dbus.service
 import dbus.mainloop.glib
-import RPi.GPIO as GPIO
+#import RPi.GPIO as GPIO
 import time
 import thread
 import keymap
@@ -25,7 +25,7 @@ class BtkStringClient():
         def __init__(self):
 
             #the structure for a bt keyboard input report (size is 10 bytes)
-                
+
             self.state=[
                     0xA1, #this is an input report
                     0x01, #Usage report = Keyboard
@@ -51,20 +51,20 @@ class BtkStringClient():
 		" ": "KEY_SPACE"
 	     }
 
-                
-            #connect with the Bluetooth keyboard server    
-            print "setting up DBus Client"  
+
+            #connect with the Bluetooth keyboard server
+            print "setting up DBus Client"
 
             self.bus = dbus.SystemBus()
             self.btkservice = self.bus.get_object('org.yaptb.btkbservice','/org/yaptb/btkbservice')
-            self.iface = dbus.Interface(self.btkservice,'org.yaptb.btkbservice')    
+            self.iface = dbus.Interface(self.btkservice,'org.yaptb.btkbservice')
 
 
-        
+
 
         def send_key_state(self):
-        
-            """sends a single frame of the current key state to the emulator server"""    
+
+            """sends a single frame of the current key state to the emulator server"""
 
             bin_str=""
             element=self.state[2]
@@ -74,16 +74,16 @@ class BtkStringClient():
 
 
         def send_key_down(self, scancode):
-        
-            """sends a key down event to the server"""    
+
+            """sends a key down event to the server"""
 
             self.state[4]=scancode
             self.send_key_state()
 
 
         def send_key_up(self):
-        
-            """sends a key up event to the server"""    
+
+            """sends a key up event to the server"""
 
             self.state[4]=0
             self.send_key_state()
@@ -113,11 +113,11 @@ class BtkStringClient():
 
 
 if __name__ == "__main__":
- 
-	
+
+
     if(len(sys.argv) <2):
 	print "Usage: send_string <string to send "
-	exit()        
+	exit()
 
     print "Setting up GPIO Bluetooth kb emulator client"
 
@@ -129,7 +129,4 @@ if __name__ == "__main__":
 
     dc.send_string(string_to_send)
 
-    print "Done."	
-
-
-    
+    print "Done."
