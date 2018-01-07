@@ -124,6 +124,7 @@ keytable = {
     "KEY_INSERT" : 73,
     "KEY_DELETE" : 76,
     "KEY_MUTE" : 239,
+    "KEY_MIN_INTERESTING" : 239,
     "KEY_VOLUMEDOWN" : 238,
     "KEY_VOLUMEUP" : 237,
     "KEY_POWER" : 102,
@@ -189,9 +190,21 @@ modkeys = {
 }
 
 def convert(evdev_keycode):
+    if isinstance(evdev_keycode, list):
+        mute = ['KEY_MIN_INTERESTING', 'KEY_MUTE']
+        if (mute == evdev_keycode):
+            return keytable['KEY_MUTE']
+        else:
+            print "#### PROBLEM multiple evdev event codes occured. Do not know how to handle ####"
+            return 0
     return keytable[evdev_keycode]
 
 def modkey(evdev_keycode):
+    if isinstance(evdev_keycode, list):
+        mute = ['KEY_MIN_INTERESTING', 'KEY_MUTE']
+        if not(mute == evdev_keycode):
+            print "#### PROBLEM multiple evdev event codes occured. Do not know how to handle ####"
+        return -1
     if evdev_keycode in modkeys:
         return modkeys[evdev_keycode]
     else:
