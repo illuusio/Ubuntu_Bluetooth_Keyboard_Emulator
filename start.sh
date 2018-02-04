@@ -5,7 +5,7 @@ sudo hciconfig hcio up
 # Update  mac address
 ./updateMac.sh
 #Update Name
-./updateName.sh BT_Keyb
+./updateName.sh BT_Keyboard
 #Get current Path
 export C_PATH=$(pwd)
 #Create Tmux session

@@ -4,11 +4,18 @@ import sys # used to exit the script
 import dbus
 import dbus.service
 import dbus.mainloop.glib
-#import RPi.GPIO as GPIO
 import time
 import thread
 import keymap
 
+R_GUI		= 0
+R_ALT		= 1
+R_Shift     = 2
+R_Control   = 3
+L_GUI       = 4
+L_ALT       = 5
+L_Shift     = 6
+L_Control   = 7
 
 class BtkStringClient():
 
@@ -88,6 +95,26 @@ class BtkStringClient():
             self.state[4]=0
             self.send_key_state()
 
+        def send_keystroke(self,scancode):
+
+            """sends a keystroke to the server"""
+
+            self.send_key_down(scancode)
+            time.sleep( BtkStringClient.KEY_DOWN_TIME)
+            self.send_key_up()
+            time.sleep( BtkStringClient.KEY_DELAY)
+
+
+        def send_key_test(self):
+
+            """send euro sign"""
+            self.state[2][R_ALT]=1
+            self.send_keystroke(8)
+
+
+
+
+
 
 
 	def send_string(self, string_to_send):
@@ -116,10 +143,14 @@ if __name__ == "__main__":
 
 
     if(len(sys.argv) <2):
-	print "Usage: send_string <string to send "
-	exit()
+        print "Usage: send_string <string to send> "
+        dc = BtkStringClient()
+        #dc.send_string('e')
+        dc.send_keystroke(8)
+        dc.send_key_test()
+        exit()
 
-    print "Setting up GPIO Bluetooth kb emulator client"
+    print "Setting up virtual Bluetooth kb emulator client"
 
     dc = BtkStringClient()
 
