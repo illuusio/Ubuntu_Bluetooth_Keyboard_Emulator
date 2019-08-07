@@ -72,9 +72,18 @@ class BTKbBluezProfile(dbus.service.Object):
 # advertize a SDP record using our bluez profile class
 #
 class BTKbDevice():
-    #change these constants 
-    MY_ADDRESS=""
-    MY_DEV_NAME="BT_Keyboard"
+    #change these constants
+    # or use enviromental variables to
+    # to declare them
+    if 'UBKE_KB_NAME' in os.environ:
+       MY_DEV_NAME=os.environ['UBKE_KB_NAME']
+    else:
+       MY_DEV_NAME="BT_Keyboard"
+
+    if 'UBKE_KB_ADDR' in os.environ:
+       MY_ADDRESS=os.environ['UBKE_KB_ADDR']
+    else:
+       MY_ADDRESS=""
 
     #define some constants
     P_CTRL =17  #Service port - must match port configured in SDP record
