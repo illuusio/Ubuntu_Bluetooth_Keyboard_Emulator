@@ -1,0 +1,10 @@
+
+# Description:         Name of bluetooth keyboard
+# Default:             "UBKE-keyboard"
+UBKE_KB_NAME="UBKE-keyboard"
+
+# Description:         Address of bluetooth adapter (hciconfig hcio and BD Addr
+#                      give you this)
+# Default:             "AA:BB:CC:DD:EE:FF"
+UBKE_KB_ADDR="AA:BB:CC:DD:EE:FF"
+
