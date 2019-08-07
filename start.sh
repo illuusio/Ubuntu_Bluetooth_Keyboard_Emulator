@@ -1,7 +1,7 @@
 #Stop the background process
 sudo /etc/init.d/bluetooth stop
 # Turn on Bluetooth
-sudo hciconfig hcio up
+systemd/ubke-setup.sh
 # Update  mac address
 ./updateMac.sh
 #Update Name
