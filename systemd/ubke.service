@@ -1,0 +1,14 @@
+[Unit]
+Description=Ubuntu Bluetooth Keyboard Emulator
+Wants=bluetooth.service
+
+[Service]
+Type=simple
+EnvironmentFile=-/etc/sysconfig/ubke
+ExecStartPre=/usr/bin/ubke-setup.sh
+ExecStart=/usr/bin/btk_server.py
+ExecStopPost=/usr/bin/hciconfig hcio down
+
+[Install]
+WantedBy=multi-user.target
+
