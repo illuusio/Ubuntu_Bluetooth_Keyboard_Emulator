@@ -72,9 +72,6 @@ class BTKbBluezProfile(dbus.service.Object):
 # advertize a SDP record using our bluez profile class
 #
 class BTKbDevice():
-    #change these constants 
-    MY_ADDRESS=""
-    MY_DEV_NAME="BT_Keyboard"
 
     #define some constants
     P_CTRL =17  #Service port - must match port configured in SDP record
@@ -149,15 +146,15 @@ class BTKbDevice():
     #listen for incoming client connections
     #ideally this would be handled by the Bluez 5 profile 
     #but that didn't seem to work
-    def listen(self):
+    def listen(self, addr):
 
         print("Waiting for connections")
         self.scontrol=BluetoothSocket(L2CAP)
         self.sinterrupt=BluetoothSocket(L2CAP)
 
         #bind these sockets to a port - port zero to select next available		
-        self.scontrol.bind((self.MY_ADDRESS,self.P_CTRL))
-        self.sinterrupt.bind((self.MY_ADDRESS,self.P_INTR ))
+        self.scontrol.bind((addr,self.P_CTRL))
+        self.sinterrupt.bind((addr,self.P_INTR ))
 
         #Start listening on the server sockets 
         self.scontrol.listen(1) # Limit of 1 connection
@@ -183,7 +180,7 @@ class BTKbDevice():
 #the service
 class  BTKbService(dbus.service.Object):
 
-    def __init__(self):
+    def __init__(self, name, addr):
 
         print("Setting up service")
 
@@ -195,7 +192,7 @@ class  BTKbService(dbus.service.Object):
         self.device= BTKbDevice();
 
         #start listening for connections
-        self.device.listen();
+        self.device.listen(addr);
 
             
     @dbus.service.method('org.yaptb.btkbservice', in_signature='yay')
@@ -222,7 +219,26 @@ if __name__ == "__main__":
     if not os.geteuid() == 0:
        sys.exit("Only root can run this script")
 
+    MY_DEV_NAME="BT_Keyboard"
+    MY_ADDRESS=""
+
+    # Name and Address can be changed
+    # With enviromental variable
+    if 'UBKE_KB_NAME' in os.environ:
+       MY_DEV_NAME=os.environ['UBKE_KB_NAME']
+
+    if 'UBKE_KB_ADDR' in os.environ:
+       MY_ADDRESS=os.environ['UBKE_KB_ADDR']
+
+    # Or Name and Address can be changed
+    # very brutally from commadline
+    # assuming that first param is name
+    # and second is address
+    if len(sys.argv) == 3:
+       MY_DEV_NAME = str(sys.argv[1])
+       MY_ADDRESS = str(sys.argv[2])
+
     DBusGMainLoop(set_as_default=True)
-    myservice = BTKbService();
+    myservice = BTKbService(MY_DEV_NAME, MY_ADDRESS);
     gtk.main()
     
