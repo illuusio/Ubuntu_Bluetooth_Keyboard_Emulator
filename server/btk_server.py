@@ -21,8 +21,7 @@ import time
 import bluetooth
 from bluetooth import *
 
-
-import gtk
+from gi.repository import GLib
 from dbus.mainloop.glib import DBusGMainLoop
 
 
@@ -225,5 +224,5 @@ if __name__ == "__main__":
 
     DBusGMainLoop(set_as_default=True)
     myservice = BTKbService(MY_DEV_NAME, MY_ADDRESS);
-    gtk.main()
-    
+    loop = GLib.MainLoop()
+    loop.run()
