@@ -1,0 +1,12 @@
+[Unit]
+Description=Ubuntu Bluetooth Keyboard Emulator setup bluetooth device script
+After=ubke-bluetooth.service
+
+[Service]
+Type=simple
+EnvironmentFile=-/etc/sysconfig/ubke
+ExecStart=/usr/bin/ubke-setup.sh ${UBKE_KB_NAME}
+
+[Install]
+WantedBy=multi-user.target
+

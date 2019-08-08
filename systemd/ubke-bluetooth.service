@@ -1,0 +1,12 @@
+[Unit]
+Description=Ubuntu Bluetooth Keyboard Emulator bluetoothd laucher
+After=bluetooth.target
+
+[Service]
+Type=simple
+EnvironmentFile=-/etc/sysconfig/ubke
+ExecStartPre=/usr/bin/sleep 20s
+ExecStart=/usr/lib/bluetooth/bluetoothd -p time --nodetach
+
+[Install]
+WantedBy=multi-user.target

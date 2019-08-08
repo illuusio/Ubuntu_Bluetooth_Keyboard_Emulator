@@ -1,0 +1,13 @@
+[Unit]
+Description=Ubuntu Bluetooth Keyboard Emulator
+Wants=ubke-setup
+After=ubke-setup
+
+[Service]
+Type=simple
+EnvironmentFile=-/etc/sysconfig/ubke
+ExecStartPre=/usr/bin/sleep 60s
+ExecStart=/usr/bin/btk_server.py ${UBKE_KB_NAME} ${UBKE_KB_ADDR}
+
+[Install]
+WantedBy=multi-user.target
