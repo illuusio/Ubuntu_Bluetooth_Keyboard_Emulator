@@ -82,6 +82,9 @@ class BTKbDevice():
     PROFILE_DBUS_PATH="/bluez/yaptb/btkb_profile" #dbus path of  the bluez profile we will create
     SDP_RECORD_PATH = sys.path[0] + "/sdp_record.xml" #file path of the sdp record to laod
     UUID="00001124-0000-1000-8000-00805f9b34fb"
+
+    if os.path.exists('/usr/share/ubke/sdp_record.xml'):
+        SDP_RECORD_PATH = '/usr/share/ubke/sdp_record.xml'
              
  
     def __init__(self):
