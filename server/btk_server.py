@@ -88,23 +88,8 @@ class BTKbDevice():
 
         print("Setting up BT device")
 
-        self.init_bt_device()
         self.init_bluez_profile()
                     
-
-    #configure the bluetooth hardware device
-    def init_bt_device(self):
-
-
-        print("Configuring for name "+BTKbDevice.MY_DEV_NAME)
-
-        #set the device class to a keybord and set the name
-        os.system("hciconfig hcio class 0x002540")
-        os.system("hciconfig hcio name " + BTKbDevice.MY_DEV_NAME)
-
-        #make the device discoverable
-        os.system("hciconfig hcio piscan")
-
 
     #set up a bluez profile to advertise device capabilities from a loaded service record
     def init_bluez_profile(self):
