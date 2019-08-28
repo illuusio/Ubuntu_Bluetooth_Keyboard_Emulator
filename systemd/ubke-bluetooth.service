@@ -6,7 +6,7 @@ After=bluetooth.target
 Type=simple
 EnvironmentFile=-/etc/sysconfig/ubke
 ExecStartPre=/usr/bin/sleep 20s
-ExecStart=/usr/lib/bluetooth/bluetoothd -p time --nodetach
+ExecStart=/usr/lib/bluetooth/bluetoothd -P a2dp,wiimote,midi,sixaxis,input --nodetach --compat
 
 [Install]
 WantedBy=multi-user.target
